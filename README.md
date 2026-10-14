@@ -1,4 +1,4 @@
-# 📖 Palavra do Dia
+# Palavra do Dia
 
 Automação que entrega uma passagem bíblica todo dia às 9h (horário de Brasília) via Telegram.
 
