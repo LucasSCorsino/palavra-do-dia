@@ -8,5 +8,15 @@
       "verse_end": 13
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-10-14",
+    "reference": {
+      "book": "ed",
+      "chapter": 7,
+      "verse_start": 10,
+      "verse_end": 10
+    },
+    "version": "NVI"
   }
 ]
