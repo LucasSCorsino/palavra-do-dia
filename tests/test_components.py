@@ -35,9 +35,12 @@ class _FakeModels:
         return self._outcome
 
 
-def _selector(outcome: object) -> tuple[GeminiSelector, _FakeModels]:
+def _selector(outcome: object, model: str = "some-model") -> tuple[GeminiSelector, _FakeModels]:
     models = _FakeModels(outcome)
-    return GeminiSelector("key", "some-model", client=SimpleNamespace(models=models)), models
+    selector = GeminiSelector(
+        "key", model, client=SimpleNamespace(models=models), sleep=lambda _s: None
+    )
+    return selector, models
 
 
 def test_selector_returns_validated_reference_from_parsed_response() -> None:
@@ -78,6 +81,56 @@ def test_selector_wraps_api_errors() -> None:
 
     with pytest.raises(SelectionError):
         selector.choose([], "g", [])
+
+
+class _SequenceModels:
+    def __init__(self, outcomes: list[object]) -> None:
+        self._outcomes = outcomes
+        self.models_called: list[object] = []
+
+    def generate_content(self, **kwargs: object) -> object:
+        self.models_called.append(kwargs["model"])
+        outcome = self._outcomes.pop(0)
+        if isinstance(outcome, Exception):
+            raise outcome
+        return outcome
+
+
+def _seq_selector(outcomes: list[object], model: str) -> tuple[GeminiSelector, _SequenceModels]:
+    models = _SequenceModels(outcomes)
+    return GeminiSelector(
+        "key", model, client=SimpleNamespace(models=models), sleep=lambda _s: None
+    ), models
+
+
+_OK = SimpleNamespace(
+    parsed=PassageChoice(book="SL", chapter=23, verse_start=1, verse_end=3), text=None
+)
+
+
+def test_selector_retries_503_then_succeeds() -> None:
+    err = genai_errors.ServerError(503, {"error": {"message": "overloaded"}})
+    selector, models = _seq_selector([err, err, _OK], "m1")
+
+    assert selector.choose([], "g", []).label == "Salmos 23:1-3"
+    assert models.models_called == ["m1", "m1", "m1"]
+
+
+def test_selector_falls_back_to_next_model_after_retries() -> None:
+    err = genai_errors.ServerError(503, {"error": {"message": "overloaded"}})
+    selector, models = _seq_selector([err, err, err, err, _OK], "m1, m2")
+
+    assert selector.choose([], "g", []).label == "Salmos 23:1-3"
+    assert models.models_called == ["m1"] * 4 + ["m2"]
+
+
+def test_selector_does_not_retry_client_errors() -> None:
+    err = genai_errors.ClientError(400, {"error": {"message": "bad request"}})
+    selector, models = _seq_selector([err], "m1,m2")
+
+    with pytest.raises(SelectionError):
+        selector.choose([], "g", [])
+    assert models.models_called == ["m1"]
 
 
 def test_prompt_contains_history_group_catalog_and_rejections() -> None:

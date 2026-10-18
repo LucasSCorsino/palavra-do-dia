@@ -4,6 +4,9 @@ on:
   schedule:
     # 12:00 UTC = 09:00 America/Sao_Paulo (UTC-3, no DST). GitHub may delay runs by minutes.
     - cron: "0 12 * * *"
+    # Safety nets if Gemini is down: no-ops when today's passage was already delivered.
+    - cron: "30 12 * * *"
+    - cron: "0 13 * * *"
   workflow_dispatch:
     inputs:
       force:

@@ -1,7 +1,8 @@
 """AI-driven passage selection. The model only chooses a reference, never the text."""
 
 import logging
-from collections.abc import Sequence
+import time
+from collections.abc import Callable, Sequence
 from typing import Any, Protocol
 
 import httpx
@@ -15,6 +16,17 @@ from palavra_do_dia.errors import InvalidReferenceError, SelectionError
 from palavra_do_dia.models import MAX_VERSES_PER_PASSAGE, HistoryEntry, PassageReference
 
 logger = logging.getLogger(__name__)
+
+# Seconds to wait before each retry of the same model (so 4 tries in total).
+RETRY_DELAYS: tuple[float, ...] = (5.0, 15.0, 30.0)
+
+
+def _is_transient(exc: Exception) -> bool:
+    """Overload / rate limit / server / network errors are worth retrying; 4xx are not."""
+    if isinstance(exc, genai_errors.APIError):
+        code = getattr(exc, "code", None)
+        return code in (429, 500, 502, 503, 504)
+    return isinstance(exc, httpx.HTTPError)
 
 
 class ReferenceSelector(Protocol):
@@ -69,9 +81,50 @@ def build_prompt(
 class GeminiSelector:
     """Selects a passage reference using Gemini with schema-constrained JSON output."""
 
-    def __init__(self, api_key: str, model: str, *, client: Any | None = None) -> None:
-        self._model = model
+    def __init__(
+        self,
+        api_key: str,
+        model: str,
+        *,
+        client: Any | None = None,
+        sleep: Callable[[float], None] = time.sleep,
+        retry_delays: Sequence[float] = RETRY_DELAYS,
+    ) -> None:
+        # ``model`` may be a comma-separated fallback chain: "primary,backup".
+        self._models = [name.strip() for name in model.split(",") if name.strip()]
         self._client = client or genai.Client(api_key=api_key)
+        self._sleep = sleep
+        self._retry_delays = tuple(retry_delays)
+
+    def _generate(self, prompt: str) -> Any:
+        last_exc: Exception | None = None
+        for model in self._models:
+            for attempt in range(len(self._retry_delays) + 1):
+                try:
+                    return self._client.models.generate_content(
+                        model=model,
+                        contents=prompt,
+                        config=types.GenerateContentConfig(
+                            response_mime_type="application/json",
+                            response_schema=PassageChoice,
+                            temperature=1.0,
+                        ),
+                    )
+                except (genai_errors.APIError, httpx.HTTPError) as exc:
+                    last_exc = exc
+                    if not _is_transient(exc):
+                        raise SelectionError(
+                            f"Gemini request failed: {type(exc).__name__}: {exc}"
+                        ) from exc
+                    logger.warning(
+                        "Gemini %s transient failure (try %d): %s", model, attempt + 1, exc
+                    )
+                    if attempt < len(self._retry_delays):
+                        self._sleep(self._retry_delays[attempt])
+            logger.warning("Giving up on model %s; trying next fallback if any.", model)
+        raise SelectionError(
+            f"Gemini request failed: {type(last_exc).__name__}: {last_exc}"
+        ) from last_exc
 
     def choose(
         self,
@@ -80,18 +133,7 @@ class GeminiSelector:
         rejected: Sequence[str],
     ) -> PassageReference:
         prompt = build_prompt(recent, focus_group, rejected)
-        try:
-            response = self._client.models.generate_content(
-                model=self._model,
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json",
-                    response_schema=PassageChoice,
-                    temperature=1.0,
-                ),
-            )
-        except (genai_errors.APIError, httpx.HTTPError) as exc:
-            raise SelectionError(f"Gemini request failed: {type(exc).__name__}: {exc}") from exc
+        response = self._generate(prompt)
 
         choice = self._parse_choice(response)
         try:
