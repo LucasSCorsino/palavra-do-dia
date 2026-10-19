@@ -38,5 +38,15 @@
       "verse_end": 32
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-10-19",
+    "reference": {
+      "book": "zc",
+      "chapter": 8,
+      "verse_start": 16,
+      "verse_end": 17
+    },
+    "version": "NVI"
   }
 ]
