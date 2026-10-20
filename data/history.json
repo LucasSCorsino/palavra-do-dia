@@ -48,5 +48,15 @@
       "verse_end": 17
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-10-20",
+    "reference": {
+      "book": "is",
+      "chapter": 33,
+      "verse_start": 5,
+      "verse_end": 6
+    },
+    "version": "NVI"
   }
 ]
