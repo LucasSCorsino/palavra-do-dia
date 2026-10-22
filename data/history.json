@@ -78,5 +78,15 @@
       "verse_end": 5
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-10-22",
+    "reference": {
+      "book": "cl",
+      "chapter": 4,
+      "verse_start": 5,
+      "verse_end": 6
+    },
+    "version": "NVI"
   }
 ]
