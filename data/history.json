@@ -88,5 +88,15 @@
       "verse_end": 6
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-10-23",
+    "reference": {
+      "book": "os",
+      "chapter": 10,
+      "verse_start": 12,
+      "verse_end": 12
+    },
+    "version": "NVI"
   }
 ]
