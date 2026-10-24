@@ -98,5 +98,15 @@
       "verse_end": 12
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-10-24",
+    "reference": {
+      "book": "pv",
+      "chapter": 19,
+      "verse_start": 20,
+      "verse_end": 21
+    },
+    "version": "NVI"
   }
 ]
