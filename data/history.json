@@ -108,5 +108,15 @@
       "verse_end": 21
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-10-25",
+    "reference": {
+      "book": "tg",
+      "chapter": 3,
+      "verse_start": 17,
+      "verse_end": 18
+    },
+    "version": "NVI"
   }
 ]
