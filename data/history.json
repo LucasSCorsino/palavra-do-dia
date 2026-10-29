@@ -118,5 +118,15 @@
       "verse_end": 18
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-10-29",
+    "reference": {
+      "book": "1sm",
+      "chapter": 12,
+      "verse_start": 23,
+      "verse_end": 24
+    },
+    "version": "NVI"
   }
 ]
