@@ -128,5 +128,15 @@
       "verse_end": 24
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-10-30",
+    "reference": {
+      "book": "ec",
+      "chapter": 7,
+      "verse_start": 8,
+      "verse_end": 9
+    },
+    "version": "NVI"
   }
 ]
