@@ -158,5 +158,15 @@
       "verse_end": 17
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-02",
+    "reference": {
+      "book": "lc",
+      "chapter": 12,
+      "verse_start": 32,
+      "verse_end": 34
+    },
+    "version": "NVI"
   }
 ]
