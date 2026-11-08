@@ -188,5 +188,15 @@
       "verse_end": 12
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-08",
+    "reference": {
+      "book": "mq",
+      "chapter": 7,
+      "verse_start": 18,
+      "verse_end": 19
+    },
+    "version": "NVI"
   }
 ]
