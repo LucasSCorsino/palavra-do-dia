@@ -198,5 +198,15 @@
       "verse_end": 19
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-09",
+    "reference": {
+      "book": "2cr",
+      "chapter": 32,
+      "verse_start": 7,
+      "verse_end": 8
+    },
+    "version": "NVI"
   }
 ]
