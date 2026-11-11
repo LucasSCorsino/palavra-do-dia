@@ -208,5 +208,15 @@
       "verse_end": 8
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-11",
+    "reference": {
+      "book": "1rs",
+      "chapter": 8,
+      "verse_start": 56,
+      "verse_end": 58
+    },
+    "version": "NVI"
   }
 ]
