@@ -228,5 +228,15 @@
       "verse_end": 35
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-15",
+    "reference": {
+      "book": "mc",
+      "chapter": 4,
+      "verse_start": 26,
+      "verse_end": 29
+    },
+    "version": "NVI"
   }
 ]
