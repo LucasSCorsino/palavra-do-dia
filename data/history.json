@@ -248,5 +248,15 @@
       "verse_end": 21
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-21",
+    "reference": {
+      "book": "ml",
+      "chapter": 3,
+      "verse_start": 16,
+      "verse_end": 18
+    },
+    "version": "NVI"
   }
 ]
