@@ -258,5 +258,15 @@
       "verse_end": 18
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-22",
+    "reference": {
+      "book": "jn",
+      "chapter": 2,
+      "verse_start": 7,
+      "verse_end": 9
+    },
+    "version": "NVI"
   }
 ]
