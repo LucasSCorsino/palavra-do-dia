@@ -268,5 +268,15 @@
       "verse_end": 9
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-24",
+    "reference": {
+      "book": "sl",
+      "chapter": 25,
+      "verse_start": 8,
+      "verse_end": 10
+    },
+    "version": "NVI"
   }
 ]
