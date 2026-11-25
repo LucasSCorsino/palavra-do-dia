@@ -278,5 +278,15 @@
       "verse_end": 10
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-25",
+    "reference": {
+      "book": "js",
+      "chapter": 22,
+      "verse_start": 5,
+      "verse_end": 5
+    },
+    "version": "NVI"
   }
 ]
