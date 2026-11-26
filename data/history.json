@@ -288,5 +288,15 @@
       "verse_end": 5
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-26",
+    "reference": {
+      "book": "2sm",
+      "chapter": 7,
+      "verse_start": 28,
+      "verse_end": 29
+    },
+    "version": "NVI"
   }
 ]
