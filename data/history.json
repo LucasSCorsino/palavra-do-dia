@@ -298,5 +298,15 @@
       "verse_end": 29
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-27",
+    "reference": {
+      "book": "1pe",
+      "chapter": 3,
+      "verse_start": 8,
+      "verse_end": 9
+    },
+    "version": "NVI"
   }
 ]
