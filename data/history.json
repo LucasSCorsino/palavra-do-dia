@@ -308,5 +308,15 @@
       "verse_end": 9
     },
     "version": "NVI"
+  },
+  {
+    "date": "2026-11-28",
+    "reference": {
+      "book": "2rs",
+      "chapter": 6,
+      "verse_start": 16,
+      "verse_end": 17
+    },
+    "version": "NVI"
   }
 ]
